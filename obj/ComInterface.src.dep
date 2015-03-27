@@ -1,0 +1,2 @@
+obj/ComInterface.o: src/ComInterface.cpp src/ComInterface.h \
+ src/RebaType.h

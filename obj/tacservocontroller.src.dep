@@ -1,0 +1,32 @@
+obj/tacservocontroller.o: src/tacservocontroller.cpp \
+ src/tacservocontroller.h src/actcontroller.h src/Robot.h \
+ src/kdl_to_eigen.h /usr/include/eigen3/Eigen/Dense src/CtrlParam.h \
+ src/RebaType.h /usr/local/include/cbf0.2/cbf/types.h \
+ /usr/local/include/cbf0.2/cbf/config.h \
+ /usr/local/include/cbf0.2/cbf/primitive_controller.h \
+ /usr/local/include/cbf0.2/cbf/controller.h \
+ /usr/local/include/cbf0.2/cbf/namespace.h \
+ /usr/local/include/cbf0.2/cbf/object.h \
+ /usr/local/include/cbf0.2/cbf/exceptions.h \
+ /usr/local/include/cbf0.2/cbf/debug_macros.h \
+ /usr/local/include/cbf0.2/cbf/convergence_criterion.h \
+ /usr/local/include/cbf0.2/cbf/potential.h \
+ /usr/local/include/cbf0.2/cbf/utilities.h \
+ /usr/local/include/cbf0.2/cbf/resource.h \
+ /usr/local/include/cbf0.2/cbf/effector_transform.h \
+ /usr/local/include/cbf0.2/cbf/sensor_transform.h \
+ /usr/local/include/cbf0.2/cbf/reference.h \
+ /usr/local/include/cbf0.2/cbf/combination_strategy.h \
+ /usr/local/include/cbf0.2/cbf/square_potential.h \
+ /usr/local/include/cbf0.2/cbf/axis_angle_potential.h \
+ /usr/local/include/cbf0.2/cbf/composite_potential.h \
+ /usr/local/include/cbf0.2/cbf/composite_transform.h \
+ /usr/local/include/cbf0.2/cbf/kdl_transforms.h \
+ /usr/local/include/cbf0.2/cbf/identity_transform.h \
+ /usr/local/include/cbf0.2/cbf/functional.h \
+ /usr/local/include/cbf0.2/cbf/xml_object_factory.h \
+ /usr/local/include/cbf0.2/cbf/xml_factory.h \
+ /usr/local/include/cbf0.2/cbf/generic_transform.h \
+ /usr/local/include/cbf0.2/cbf/dummy_resource.h \
+ /usr/local/include/cbf0.2/cbf/dummy_reference.h src/task.h src/Util.h \
+ src/msgcontenttype.h src/parametermanager.h src/tacservotask.h

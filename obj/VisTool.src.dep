@@ -1,0 +1,225 @@
+obj/VisTool.o: src/VisTool.cpp /opt/icl/include/icl-9.4/ICLQt/Common.h \
+ /opt/icl/include/icl-9.4/ICLUtils/CompatMacros.h \
+ /opt/icl/include/icl-9.4/ICLUtils/ICLConfig.h \
+ /opt/icl/include/icl-9.4/ICLQt/Qt.h \
+ /opt/icl/include/icl-9.4/ICLQt/Widget.h \
+ /opt/icl/include/icl-9.4/ICLCore/ImgBase.h \
+ /opt/icl/include/icl-9.4/ICLCore/CoreFunctions.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Macros.h \
+ /opt/icl/include/icl-9.4/ICLUtils/BasicTypes.h \
+ /opt/intel/IPP/7.07/ipp/include/ipp.h \
+ /opt/intel/IPP/7.07/ipp/include/ippversion.h \
+ /opt/intel/IPP/7.07/ipp/include/ippdefs.h \
+ /opt/intel/IPP/7.07/ipp/include/ippcore.h \
+ /opt/intel/IPP/7.07/ipp/include/ippac.h \
+ /opt/intel/IPP/7.07/ipp/include/ippcc.h \
+ /opt/intel/IPP/7.07/ipp/include/ippdc.h \
+ /opt/intel/IPP/7.07/ipp/include/ippch.h \
+ /opt/intel/IPP/7.07/ipp/include/ippcv.h \
+ /opt/intel/IPP/7.07/ipp/include/ippi.h \
+ /opt/intel/IPP/7.07/ipp/include/ippj.h \
+ /opt/intel/IPP/7.07/ipp/include/ippm.h \
+ /opt/intel/IPP/7.07/ipp/include/ipps.h \
+ /opt/intel/IPP/7.07/ipp/include/ippsc.h \
+ /opt/intel/IPP/7.07/ipp/include/ippvc.h \
+ /opt/intel/IPP/7.07/ipp/include/ippvm.h \
+ /opt/intel/IPP/7.07/ipp/include/ippr.h \
+ /opt/intel/IPP/7.07/ipp/include/ippdi.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Point32f.h \
+ /opt/icl/include/icl-9.4/ICLUtils/ClippedCast.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Point.h \
+ /opt/icl/include/icl-9.4/ICLUtils/PThreadFix.h \
+ /opt/icl/include/icl-9.4/ICLUtils/SSEUtils.h \
+ /opt/icl/include/icl-9.4/ICLUtils/SSETypes.h \
+ /opt/icl/include/icl-9.4/ICLCore/Types.h \
+ /opt/icl/include/icl-9.4/ICLCore/ImgParams.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Size.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Rect.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Exception.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Time.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Range.h \
+ /opt/icl/include/icl-9.4/ICLUtils/SmartPtr.h \
+ /opt/icl/include/icl-9.4/ICLUtils/SmartPtrBase.h \
+ /usr/include/qt5/QtOpenGL/QGLWidget /usr/include/qt5/QtOpenGL/qgl.h \
+ /usr/include/qt5/QtGui/qopengl.h /usr/include/qt5/QtCore/qglobal.h \
+ /usr/include/qt5/QtCore/qconfig.h /usr/include/qt5/QtCore/qfeatures.h \
+ /usr/include/qt5/QtCore/qsystemdetection.h \
+ /usr/include/qt5/QtCore/qprocessordetection.h \
+ /usr/include/qt5/QtCore/qcompilerdetection.h \
+ /usr/include/qt5/QtCore/qglobalstatic.h \
+ /usr/include/qt5/QtCore/qatomic.h /usr/include/qt5/QtCore/qbasicatomic.h \
+ /usr/include/qt5/QtCore/qatomic_x86.h \
+ /usr/include/qt5/QtCore/qgenericatomic.h \
+ /usr/include/qt5/QtCore/qlogging.h /usr/include/qt5/QtCore/qflags.h \
+ /usr/include/qt5/QtCore/qtypeinfo.h \
+ /usr/include/qt5/QtCore/qtypetraits.h /usr/include/qt5/QtCore/qsysinfo.h \
+ /usr/include/qt5/QtGui/qopenglext.h /usr/include/qt5/QtWidgets/qwidget.h \
+ /usr/include/qt5/QtGui/qwindowdefs.h \
+ /usr/include/qt5/QtCore/qobjectdefs.h \
+ /usr/include/qt5/QtCore/qnamespace.h \
+ /usr/include/qt5/QtCore/qobjectdefs_impl.h \
+ /usr/include/qt5/QtCore/qobject.h /usr/include/qt5/QtCore/qstring.h \
+ /usr/include/qt5/QtCore/qchar.h /usr/include/qt5/QtCore/qbytearray.h \
+ /usr/include/qt5/QtCore/qrefcount.h /usr/include/qt5/QtCore/qarraydata.h \
+ /usr/include/qt5/QtCore/qlist.h /usr/include/qt5/QtCore/qalgorithms.h \
+ /usr/include/qt5/QtCore/qiterator.h \
+ /usr/include/qt5/QtCore/qscopedpointer.h \
+ /usr/include/qt5/QtCore/qmetatype.h \
+ /usr/include/qt5/QtCore/qvarlengtharray.h \
+ /usr/include/qt5/QtCore/qcontainerfwd.h \
+ /usr/include/qt5/QtCore/qisenum.h /usr/include/qt5/QtCore/qobject_impl.h \
+ /usr/include/qt5/QtCore/qmargins.h /usr/include/qt5/QtCore/qrect.h \
+ /usr/include/qt5/QtCore/qsize.h /usr/include/qt5/QtCore/qpoint.h \
+ /usr/include/qt5/QtGui/qpaintdevice.h /usr/include/qt5/QtGui/qpalette.h \
+ /usr/include/qt5/QtGui/qcolor.h /usr/include/qt5/QtGui/qrgb.h \
+ /usr/include/qt5/QtCore/qstringlist.h \
+ /usr/include/qt5/QtCore/qdatastream.h \
+ /usr/include/qt5/QtCore/qiodevice.h /usr/include/qt5/QtCore/qpair.h \
+ /usr/include/qt5/QtCore/qregexp.h \
+ /usr/include/qt5/QtCore/qstringmatcher.h /usr/include/qt5/QtGui/qbrush.h \
+ /usr/include/qt5/QtCore/qvector.h /usr/include/qt5/QtGui/qmatrix.h \
+ /usr/include/qt5/QtGui/qpolygon.h /usr/include/qt5/QtGui/qregion.h \
+ /usr/include/qt5/QtCore/qline.h /usr/include/qt5/QtGui/qtransform.h \
+ /usr/include/qt5/QtGui/qpainterpath.h /usr/include/qt5/QtGui/qimage.h \
+ /usr/include/qt5/QtGui/qpixmap.h \
+ /usr/include/qt5/QtCore/qsharedpointer.h \
+ /usr/include/qt5/QtCore/qshareddata.h \
+ /usr/include/qt5/QtCore/qsharedpointer_impl.h \
+ /usr/include/qt5/QtCore/qhash.h /usr/include/qt5/QtGui/qfont.h \
+ /usr/include/qt5/QtGui/qfontmetrics.h /usr/include/qt5/QtGui/qfontinfo.h \
+ /usr/include/qt5/QtWidgets/qsizepolicy.h \
+ /usr/include/qt5/QtGui/qcursor.h /usr/include/qt5/QtGui/qkeysequence.h \
+ /usr/include/qt5/QtGui/qpaintengine.h /usr/include/qt5/QtGui/qpainter.h \
+ /usr/include/qt5/QtGui/qtextoption.h /usr/include/qt5/QtGui/qpen.h \
+ /usr/include/qt5/QtOpenGL/qglcolormap.h \
+ /usr/include/qt5/QtOpenGL/qtopenglglobal.h \
+ /usr/include/qt5/QtCore/qmap.h /usr/include/qt5/QtGui/QSurfaceFormat \
+ /usr/include/qt5/QtGui/qsurfaceformat.h \
+ /opt/icl/include/icl-9.4/ICLQt/ImageStatistics.h \
+ /opt/icl/include/icl-9.4/ICLQt/MouseHandler.h \
+ /usr/include/qt5/QtCore/QObject /usr/include/qt5/QtCore/qobject.h \
+ /opt/icl/include/icl-9.4/ICLQt/MouseEvent.h \
+ /opt/icl/include/icl-9.4/ICLCore/Img.h \
+ /opt/icl/include/icl-9.4/ICLCore/ImgIterator.h \
+ /opt/icl/include/icl-9.4/ICLMath/MatrixSubRectIterator.h \
+ /opt/icl/include/icl-9.4/ICLCore/Channel.h \
+ /opt/icl/include/icl-9.4/ICLCore/PixelRef.h \
+ /opt/icl/include/icl-9.4/ICLUtils/SmartArray.h \
+ /opt/icl/include/icl-9.4/ICLMath/FixedMatrix.h \
+ /opt/icl/include/icl-9.4/ICLUtils/FixedArray.h \
+ /opt/icl/include/icl-9.4/ICLMath/DynMatrix.h \
+ /opt/intel/MKL/10.3.11/mkl/include/mkl_cblas.h \
+ /opt/intel/MKL/10.3.11/mkl/include/mkl_types.h \
+ /opt/intel/IPP/7.07/ipp/include/ippm.h /usr/include/qt5/QtCore/Qt \
+ /usr/include/qt5/QtCore/qnamespace.h \
+ /opt/icl/include/icl-9.4/ICLQt/WidgetCaptureMode.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUI.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Function.h \
+ /opt/icl/include/icl-9.4/ICLQt/DataStore.h \
+ /opt/icl/include/icl-9.4/ICLUtils/MultiTypeMap.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Mutex.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Uncopyable.h \
+ /opt/icl/include/icl-9.4/ICLUtils/StringUtils.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUIComponents.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Any.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUIComponentWithOutput.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUIComponent.h \
+ /usr/include/qt5/QtWidgets/QLayout /usr/include/qt5/QtWidgets/qlayout.h \
+ /usr/include/qt5/QtWidgets/qlayoutitem.h \
+ /usr/include/qt5/QtWidgets/qboxlayout.h \
+ /usr/include/qt5/QtWidgets/qlayout.h \
+ /usr/include/qt5/QtWidgets/qgridlayout.h \
+ /usr/include/qt5/QtWidgets/QWidget /usr/include/qt5/QtWidgets/qwidget.h \
+ /usr/include/qt5/QtWidgets/QApplication \
+ /usr/include/qt5/QtWidgets/qapplication.h \
+ /usr/include/qt5/QtCore/qcoreapplication.h \
+ /usr/include/qt5/QtCore/qcoreevent.h \
+ /usr/include/qt5/QtCore/qeventloop.h \
+ /usr/include/qt5/QtGui/qguiapplication.h \
+ /usr/include/qt5/QtGui/qinputmethod.h /usr/include/qt5/QtCore/qlocale.h \
+ /usr/include/qt5/QtCore/qvariant.h \
+ /opt/icl/include/icl-9.4/ICLCore/Color.h \
+ /opt/icl/include/icl-9.4/ICLMath/FixedVector.h \
+ /opt/icl/include/icl-9.4/ICLQt/DrawWidget.h \
+ /opt/icl/include/icl-9.4/ICLUtils/VisualizationDescription.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Rect32f.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Size32f.h \
+ /usr/include/qt5/QtCore/QMutex /usr/include/qt5/QtCore/qmutex.h \
+ /opt/icl/include/icl-9.4/ICLQt/DrawWidget3D.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Thread.h \
+ /opt/icl/include/icl-9.4/ICLUtils/ShallowCopyable.h \
+ /opt/icl/include/icl-9.4/ICLQt/ButtonHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUIHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUIHandleBase.h \
+ /opt/icl/include/icl-9.4/ICLQt/GUIWidget.h \
+ /opt/icl/include/icl-9.4/ICLQt/BoxHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/ContainerHandle.h \
+ /usr/include/qt5/QtCore/QString /usr/include/qt5/QtCore/qstring.h \
+ /opt/icl/include/icl-9.4/ICLQt/BorderHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/ButtonGroupHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/LabelHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/CompabilityLabel.h \
+ /opt/icl/include/icl-9.4/ICLQt/ThreadedUpdatableWidget.h \
+ /usr/include/qt5/QtCore/QEvent /usr/include/qt5/QtCore/qcoreevent.h \
+ /usr/include/qt5/QtCore/QThread /usr/include/qt5/QtCore/qthread.h \
+ /opt/icl/include/icl-9.4/ICLQt/SliderHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/ThreadedUpdatableSlider.h \
+ /usr/include/qt5/QtWidgets/QSlider /usr/include/qt5/QtWidgets/qslider.h \
+ /usr/include/qt5/QtWidgets/qabstractslider.h \
+ /opt/icl/include/icl-9.4/ICLQt/SliderUpdateEvent.h \
+ /opt/icl/include/icl-9.4/ICLQt/FSliderHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/IntHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/FPSHandle.h \
+ /opt/icl/include/icl-9.4/ICLUtils/FPSEstimator.h \
+ /opt/icl/include/icl-9.4/ICLQt/CheckBoxHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/FloatHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/StateHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/StringHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/ComboHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/SpinnerHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/ImageHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/DrawHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/DrawHandle3D.h \
+ /opt/icl/include/icl-9.4/ICLQt/DispHandle.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Array2D.h \
+ /opt/icl/include/icl-9.4/ICLQt/MultiDrawHandle.h \
+ /usr/include/qt5/QtWidgets/QTabBar /usr/include/qt5/QtWidgets/qtabbar.h \
+ /opt/icl/include/icl-9.4/ICLQt/TabHandle.h \
+ /usr/include/qt5/QtWidgets/QTabWidget \
+ /usr/include/qt5/QtWidgets/qtabwidget.h /usr/include/qt5/QtGui/qicon.h \
+ /opt/icl/include/icl-9.4/ICLQt/SplitterHandle.h \
+ /usr/include/qt5/QtWidgets/QSplitter \
+ /usr/include/qt5/QtWidgets/qsplitter.h \
+ /usr/include/qt5/QtWidgets/qframe.h \
+ /opt/icl/include/icl-9.4/ICLQt/PlotHandle.h \
+ /opt/icl/include/icl-9.4/ICLQt/PlotWidget.h \
+ /opt/icl/include/icl-9.4/ICLQt/LowLevelPlotWidget.h \
+ /opt/icl/include/icl-9.4/ICLQt/AbstractPlotWidget.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Configurable.h \
+ /opt/icl/include/icl-9.4/ICLUtils/UncopiedInstance.h \
+ /usr/include/qt5/QtGui/QPen /usr/include/qt5/QtGui/qpen.h \
+ /usr/include/qt5/QtGui/QBrush /usr/include/qt5/QtGui/qbrush.h \
+ /usr/include/qt5/QtGui/QPainter /usr/include/qt5/QtGui/qpainter.h \
+ /opt/icl/include/icl-9.4/ICLQt/ContainerGUIComponents.h \
+ /opt/icl/include/icl-9.4/ICLQt/ContainerGUIComponent.h \
+ /opt/icl/include/icl-9.4/ICLQt/Application.h \
+ /opt/icl/include/icl-9.4/ICLQt/Quick.h \
+ /opt/icl/include/icl-9.4/ICLIO/GenericGrabber.h \
+ /opt/icl/include/icl-9.4/ICLUtils/Lockable.h \
+ /opt/icl/include/icl-9.4/ICLUtils/ProgArg.h \
+ /opt/icl/include/icl-9.4/ICLUtils/ConfigurableProxy.h \
+ /opt/icl/include/icl-9.4/ICLIO/Grabber.h \
+ /opt/icl/include/icl-9.4/ICLUtils/SteppingRange.h \
+ /opt/icl/include/icl-9.4/ICLIO/GrabberDeviceDescription.h \
+ /opt/icl/include/icl-9.4/ICLIO/ImageUndistortion.h \
+ /opt/icl/include/icl-9.4/ICLIO/FileWriter.h \
+ /opt/icl/include/icl-9.4/ICLIO/ImageOutput.h \
+ /opt/icl/include/icl-9.4/ICLIO/ImageCompressor.h \
+ /opt/icl/include/icl-9.4/ICLIO/FilenameGenerator.h \
+ /opt/icl/include/icl-9.4/ICLIO/FileWriterPlugin.h \
+ /opt/icl/include/icl-9.4/ICLUtils/File.h src/VisTool.h \
+ /opt/icl/include/icl-9.4/ICLMath/LinearTransform1D.h \
+ /opt/icl/include/icl-9.4/ICLMath/StraightLine2D.h \
+ /opt/icl/include/icl-9.4/ICLQt/IconFactory.h \
+ /usr/include/qt5/QtGui/QPixmap /usr/include/qt5/QtGui/qpixmap.h \
+ /usr/include/qt5/QtGui/QIcon /usr/include/qt5/QtGui/qicon.h
