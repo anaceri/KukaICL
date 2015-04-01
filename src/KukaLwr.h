@@ -57,6 +57,9 @@ public:
     std::ofstream v_data;
     Eigen::Vector3d get_cur_vel();
     fri_float_t old_cartpos[12];
+    Eigen::Vector3d forceCorr,forceCorrStdDev;
+    void calibForce(int sampletimes);
+    void getTcpFtCalib (Eigen::Vector3d &cf);
 private:
     void initChains();
     void initCbf();

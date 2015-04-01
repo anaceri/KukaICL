@@ -109,7 +109,7 @@ int ComOkc::okcCartposAxisAbsCallback (void* priv, const fri_float_t* cartpos_ac
     fri_float_t jnt_pos[7];
     ComOkc *com_okc_ptr = (ComOkc*) priv;
     okc_get_jntpos_act(ComOkc::okc,com_okc_ptr->getrobot_id(),jnt_pos);
-//    okc_get_ft_tcp_est(ComOkc::okc,com_okc_ptr->getrobot_id(), com_okc_ptr->ft);
+    okc_get_ft_tcp_est(ComOkc::okc,com_okc_ptr->getrobot_id(), com_okc_ptr->ft);
     for(int i = 0; i <7; i++){
         com_okc_ptr->jnt_position_act[i] = axispos_act[i];
         com_okc_ptr->jnt_position_mea[i] = jnt_pos[i];
@@ -410,3 +410,6 @@ ComOkc::ComOkc(RobotNameT connectToRobot=kuka_right, \
     }
 }
 
+void ComOkc::sleep_cycle_time(){
+    okc_sleep_cycletime(okc,robot_id);
+}

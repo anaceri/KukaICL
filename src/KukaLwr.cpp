@@ -225,6 +225,45 @@ void KukaLwr::get_eef_ft(Eigen::Vector3d& f,Eigen::Vector3d& t){
     t[2] = okc_node->ft->a;
 }
 
+void KukaLwr::calibForce(int sampletimes)
+{
+    Eigen::Vector3d newForce;
+    Eigen::Vector3d cf,ct;
+    Eigen::Vector3d sum,squaresum,mean,stddev;
+    newForce.setZero();
+    cf.setZero();
+    ct.setZero();
+    sum.setZero();
+    squaresum.setZero();
+    mean.setZero();
+    stddev.setZero();
+
+    for (int i=1;i < sampletimes+1; i++){
+        get_eef_ft(cf,ct);
+        for(int j = 0; j < 3; j++){
+            newForce(j) += cf(j) / (-1.0*sampletimes);
+            sum(j) += cf(j);
+            squaresum(j) += sqr(cf(j));
+            mean(j) = sum(j) / (double) i;
+            if (i > 1){
+                stddev(j) = sqrt ((1.0/(((double)i)-1.0))*(squaresum(j) - (sqr(sum(j))/(double)i)));
+            }
+        }
+        okc_node->sleep_cycle_time();
+        fprintf (stderr,"calib: %d\n",i);
+    }
+    forceCorr = newForce;
+    forceCorrStdDev = stddev;
+}
+
+void KukaLwr::getTcpFtCalib (Eigen::Vector3d &cf){
+    Eigen::Vector3d cfraw, ctraw;
+    cfraw.setZero();
+    ctraw.setZero();
+    get_eef_ft(cfraw,ctraw);
+    cf = cfraw + forceCorr;
+}
+
 
 void KukaLwr::get_joint_position_act(){
     for (int i=0;i < 7; i++){
@@ -537,4 +576,6 @@ KukaLwr::KukaLwr(RobotNameT robotname, ComOkc& com)
     }
     jlf = new JntLimitFilter(okc_node->cycle_time);
     v_data.open("/tmp/vdata.txt");
+    forceCorr.setZero();
+    forceCorrStdDev.setZero();
 }

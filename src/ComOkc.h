@@ -51,6 +51,7 @@ public:
     void switch_to_cp_impedance();
     void switch_to_jnt_impedance();
     void request_monitor_mode();
+    void sleep_cycle_time();
 private:
     static int instance_count;
     char hostname[16];

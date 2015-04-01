@@ -52,6 +52,8 @@ public:
     virtual void waitForFinished() = 0;
     virtual RobotNameT get_robotname() = 0;
     virtual double gettimecycle() = 0;
+    virtual void calibForce(int st) = 0;
+    virtual void getTcpFtCalib (Eigen::Vector3d &cf) = 0;
     void set_cart_command(double *);
     virtual void set_init_TM(Eigen::Matrix3d tm) = 0;
     virtual Eigen::Matrix3d get_init_TM() = 0;
