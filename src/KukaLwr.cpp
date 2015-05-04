@@ -10,6 +10,9 @@
 #define initP_y 0.3
 #define initP_z 0.25
 
+#define stop_v 0.0005
+#define deltap_thr 5
+
 
 void KukaLwr::setReference (CBF::FloatVector new_ref){
     if (new_ref.size() != 6){
@@ -94,6 +97,17 @@ Eigen::Vector3d KukaLwr::get_cur_vel(){
         old_cartpos[i] = new_cartpos[i];
     }
     return vel;
+}
+
+bool KukaLwr::isTaskFinish(Eigen::Vector3d v, double deltap){
+
+    if((fabs(v[0])<stop_v)&&(fabs(v[1])<stop_v)&&(fabs(v[2])<stop_v)&&(deltap < deltap_thr)){
+        return true;
+    }
+    else{
+        return false;
+    }
+
 }
 
 void KukaLwr::update_cbf_controller(){

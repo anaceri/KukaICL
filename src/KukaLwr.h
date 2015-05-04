@@ -60,6 +60,7 @@ public:
     Eigen::Vector3d forceCorr,forceCorrStdDev;
     void calibForce(int sampletimes);
     void getTcpFtCalib (Eigen::Vector3d &cf);
+    bool isTaskFinish(Eigen::Vector3d, double);
 private:
     void initChains();
     void initCbf();
@@ -74,6 +75,7 @@ private:
     ComOkc* okc_node;
     CBF::FloatVector updates;
     int robot_id;
+
 };
 
 #endif // KUKALWR_H

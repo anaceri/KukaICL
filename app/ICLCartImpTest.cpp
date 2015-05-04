@@ -48,8 +48,8 @@ VisTool *visTool = 0;
 
 
 #ifdef DJALLIL_CONF
-#define newP_x 0.28
-#define newP_y 0.5
+#define newP_x -0.3
+#define newP_y 0.6
 #define newP_z 0.50
 
 #define newO_x 0.0
@@ -305,7 +305,7 @@ void run_vis(){
 void init(){
 //    if(!pa("-no-robot")){}
     pm = new ParameterManager("right_arm_param.xml");
-    com_okc = new ComOkc(kuka_right,OKC_HOST,OKC_PORT,CART_IMP);
+    com_okc = new ComOkc(kuka_right,OKC_HOST,OKC_PORT,JNT_IMP);
     com_okc->connect();
     kuka_lwr = new KukaLwr(kuka_right,*com_okc);
     kuka_lwr_rs = new RobotState(kuka_lwr);

@@ -17,9 +17,9 @@ void Fun::dealvi(int n, int *V)
 {
   int r1, r2, j;
   int a;
-  for (j = 1; j < n ; j++) {
-    r1 = rand() % n;
-    r2 = rand() % n; 
+  for (j = 1; j < n+1 ; j++) {
+    r1 = rand() % n + 1;
+    r2 = rand() % n + 1;
     
     if (r1 != r2) {
       a     = V[r1];  
@@ -33,9 +33,9 @@ void Fun::dealvf(int n, float *V)
 {
   int r1, r2, j;
   float a;
-  for (j = 1; j < n ; j++) {
-    r1 = rand() % n;
-    r2 = rand() % n; 
+  for (j = 1; j < n+1 ; j++) {
+    r1 = rand() % n+1;
+    r2 = rand() % n+1;
     
     if (r1 != r2) {
       a     = V[r1];  

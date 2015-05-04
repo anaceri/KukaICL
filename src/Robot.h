@@ -80,6 +80,7 @@ public:
     KDL::JntArray q;
     KDL::Frame pose;
     virtual void get_eef_ft(Eigen::Vector3d&,Eigen::Vector3d&) = 0;
+    virtual bool isTaskFinish(Eigen::Vector3d, double) = 0;
 protected:
     Eigen::Matrix3d m_init_tm;
     Eigen::Matrix3d m_TM_eigen;

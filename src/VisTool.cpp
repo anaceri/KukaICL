@@ -24,7 +24,7 @@ namespace icl{
 
     addProperty("sizes.left","range","[1,100]",20);
     addProperty("sizes.right","range","[1,100]",20);
-    addProperty("sizes.curr","range","[1,100]",30);
+    addProperty("sizes.curr","range","[1,100]",18);
     addProperty("sizes.trace","range","[1,100]",10);
     
     addProperty("viewport.minX","range:spinbox","[-10000,10000]",0);

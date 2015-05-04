@@ -220,8 +220,27 @@ app/obj/Impedancelearning.o: app/Impedancelearning.cpp \
  /opt/icl/include/icl-9.4/ICLIO/FileWriterPlugin.h \
  /opt/icl/include/icl-9.4/ICLUtils/File.h \
  /opt/icl/include/icl-9.4/ICLUtils/Random.h \
- /opt/icl/include/icl-9.4/ICLUtils/FPSLimiter.h src/VisTool.h \
- /opt/icl/include/icl-9.4/ICLMath/LinearTransform1D.h \
+ /opt/icl/include/icl-9.4/ICLUtils/FPSLimiter.h \
+ /opt/icl/include/icl-9.4/ICLGeom/Scene.h \
+ /opt/icl/include/icl-9.4/ICLGeom/SceneObject.h \
+ /opt/icl/include/icl-9.4/ICLGeom/Primitive.h \
+ /opt/icl/include/icl-9.4/ICLGeom/GeomDefs.h \
+ /opt/icl/include/icl-9.4/ICLMath/HomogeneousMath.h \
+ /opt/icl/include/icl-9.4/ICLQt/GLImg.h \
+ /opt/icl/include/icl-9.4/ICLGeom/ViewRay.h \
+ /opt/icl/include/icl-9.4/ICLGeom/Hit.h \
+ /opt/icl/include/icl-9.4/ICLQt/GLFragmentShader.h \
+ /opt/icl/include/icl-9.4/ICLGeom/Camera.h \
+ /opt/icl/include/icl-9.4/ICLGeom/PlaneEquation.h \
+ /opt/icl/include/icl-9.4/ICLGeom/SceneLight.h \
+ /opt/icl/include/icl-9.4/ICLGeom/PointCloudGrabber.h \
+ /opt/icl/include/icl-9.4/ICLGeom/PointCloudObjectBase.h \
+ /opt/icl/include/icl-9.4/ICLCore/DataSegment.h \
+ /opt/icl/include/icl-9.4/ICLCore/DataSegmentBase.h \
+ /opt/icl/include/icl-9.4/ICLGeom/SceneMouseHandler.h \
+ /opt/icl/include/icl-9.4/ICLGeom/ShaderUtil.h \
+ /opt/icl/include/icl-9.4/ICLGeom/ComplexCoordinateFrameSceneObject.h \
+ src/VisTool.h /opt/icl/include/icl-9.4/ICLMath/LinearTransform1D.h \
  /opt/icl/include/icl-9.4/ICLMath/StraightLine2D.h src/ComOkc.h \
  src/ComInterface.h src/RebaType.h src/KukaLwr.h src/Robot.h \
  src/kdl_to_eigen.h /usr/include/eigen3/Eigen/Dense src/CtrlParam.h \
@@ -256,4 +275,5 @@ app/obj/Impedancelearning.o: app/Impedancelearning.cpp \
  /usr/local/include/cbf0.2/cbf/dummy_reference.h src/ComOkc.h \
  src/jntlimitfilter.h src/Robot.h src/proactcontroller.h \
  src/kukaselfctrltask.h src/kukaselfctrltask.h src/tacservocontroller.h \
- src/tacservotask.h src/Timer.h src/RobotState.h src/Fun.hpp
+ src/tacservotask.h src/Timer.h src/RobotState.h src/Fun.hpp \
+ src/TemporalSmoothingFilter.h

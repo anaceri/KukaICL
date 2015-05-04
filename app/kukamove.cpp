@@ -34,8 +34,8 @@ Task *task;
 TaskNameT taskname;
 ParameterManager* pm;
 #ifdef DJALLIL_CONF
-#define newP_x 0.28
-#define newP_y 0.5
+#define newP_x -0.30
+#define newP_y 0.6
 #define newP_z 0.50
 
 #define newO_x 0.0
@@ -374,7 +374,7 @@ int main(int argc, char* argv[])
     stiffness_data.open("/tmp/stiff.txt");
     inp = 'f';
     init();
-    while(inp != 'e' && inp != EOF){
+    while(1){
         switch (inp){
 
         case 'g':
