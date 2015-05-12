@@ -183,7 +183,15 @@ namespace icl{
         }
       }
     }
-    
+
+    {
+      Mutex::Locker lock(visualizationsMutex);
+      for(std::map<std::string,utils::VisualizationDescription>::iterator it = visualizations.begin();
+          it != visualizations.end();++it){
+        draw->draw(it->second);
+      }
+    }
+
     draw->render();
   }
   
@@ -205,5 +213,30 @@ namespace icl{
 
   void VisTool::clearTrace(){
     setPropertyValue("trace.empty",":-)");
+  }
+
+  void VisTool::addCustomVisualization(const utils::VisualizationDescription &vis, const std::string &id){
+    {
+      Mutex::Locker lock(visualizationsMutex);
+      visualizations[id] = vis;
+    }
+    update();
+  }
+  void VisTool::removeCustomVisualization(const std::string &id){
+    {
+      Mutex::Locker lock(visualizationsMutex);
+      std::map<std::string,utils::VisualizationDescription>::iterator it = visualizations.find(id);
+      if(it != visualizations.end()){
+        visualizations.erase(it);
+      }
+    }
+    update();
+  }
+  void VisTool::removeAllCustomVisualizations(){
+    {
+      Mutex::Locker lock(visualizationsMutex);
+      visualizations.clear();
+    }
+    update();
   }
 }

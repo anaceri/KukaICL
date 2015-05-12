@@ -151,7 +151,7 @@ void start_cb(){
     visTool->setPropertyValue("pos.curr",curr);
     initP.setZero();
     initP = kuka_lwr_rs->robot_position["eef"];
-    std::cout<<"session = " << sval <<std::endl;
+
     switch (sval){
     case SESSION1:
         if(trialcounter>=trial_s1){
@@ -162,7 +162,6 @@ void start_cb(){
         FileName << pathdata << filename << "_se1_" << trialcounter << ".dat";
         datafile.open(FileName.str().c_str(), ofstream::out);
         counter_t = numOftrials1[trialcounter++];
-        std::cout<<"counter = " << counter_t <<std::endl;
         std::cout<<"trial = " << trialcounter <<std::endl;
         break;
     case SESSION2:
@@ -174,6 +173,7 @@ void start_cb(){
         FileName << pathdata << filename << "_se2_" << trialcounter << ".dat";
         datafile.open(FileName.str().c_str(), ofstream::out);
         counter_t = numOftrials2[trialcounter++];
+        std::cout<<"trial = " << trialcounter <<std::endl;
         break;
     }
 
@@ -286,42 +286,42 @@ void run_ctrl(){
                 case 1:
                     extft[0] = 20*sin(0/4.0);
                     extft[1] = 20*cos(0/4.0);
-                    std::cout<<"session 1  1"<<std::endl;
+                    //std::cout<<"session 1  1"<<std::endl;
                     break;
                 case 2:
                     extft[0] = 20*sin(M_PI/4.0);
                     extft[1] = 20*cos(M_PI/4.0);
-                    std::cout<<"session 1  2"<<std::endl;
+                    //std::cout<<"session 1  2"<<std::endl;
                     break;
                 case 3:
                     extft[0] = 20*sin(2*M_PI/4.0);
                     extft[1] = 20*cos(2*M_PI/4.0);
-                    std::cout<<"session 1  3"<<std::endl;
+                    //std::cout<<"session 1  3"<<std::endl;
                     break;
                 case 4:
                     extft[0] = 20*sin(3.0*M_PI/4.0);
                     extft[1] = 20*cos(3.0*M_PI/4.0);
-                    std::cout<<"session 1  4"<<std::endl;
+                    //std::cout<<"session 1  4"<<std::endl;
                     break;
                 case 5:
                     extft[0] = 20*sin(4.0*M_PI/4.0);
                     extft[1] = 20*cos(4.0*M_PI/4.0);
-                    std::cout<<"session 1  5"<<std::endl;
+                    //std::cout<<"session 1  5"<<std::endl;
                     break;
                 case 6:
                     extft[0] = 20*sin(5.0*M_PI/4.0);
                     extft[1] = 20*cos(5.0*M_PI/4.0);
-                    std::cout<<"session 1  6"<<std::endl;
+                    //std::cout<<"session 1  6"<<std::endl;
                     break;
                 case 7:
                     extft[0] = 20*sin(6.0*M_PI/4.0);
                     extft[1] = 20*cos(6.0*M_PI/4.0);
-                    std::cout<<"session 1  7"<<std::endl;
+                    //std::cout<<"session 1  7"<<std::endl;
                     break;
                 case 8:
                     extft[0] = 20*sin(7.0*M_PI/4.0);
                     extft[1] = 20*cos(7.0*M_PI/4.0);
-                    std::cout<<"session 1  8"<<std::endl;
+                    //std::cout<<"session 1  8"<<std::endl;
                     break;
                 default:
                     extft[0] = 0;
@@ -334,12 +334,12 @@ void run_ctrl(){
                 case 1:
                     extft[0] = 0;
                     extft[1] = 50;
-                    std::cout<<"session 2  1"<<std::endl;
+                    //std::cout<<"session 2  1"<<std::endl;
                     break;
                 case 2:
                     extft[0] = 0;
                     extft[1] = -50;
-                    std::cout<<"session 2  2"<<std::endl;
+                    //std::cout<<"session 2  2"<<std::endl;
                     break;
                 default:
                     extft[0] = 0;
@@ -366,8 +366,8 @@ void run_ctrl(){
                 extft[1] = 0;
                 set_stiff_extf();
             }
-            std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
-            std::cout<<"del distance "<<(double)pa("-g",0)-curr.x;
+            //std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
+            //std::cout<<"del distance "<<(double)pa("-g",0)-curr.x;
             if(kuka_lwr->isTaskFinish(vel,(double)pa("-g",0)-curr.x)){
                 stop_cb();
             }
@@ -392,6 +392,20 @@ void run_vis(){
 //    Thread::msleep(1000);
 //    return;
 //  }
+    static float angle = 90;
+    VisualizationDescription d;
+    d.color(0,100,255,255);
+    d.textangle(90);
+    d.fontsize(35);
+    d.text(900,10,"Trial = " + str(trialcounter));
+
+    if(trialcounter==0){
+        d.fontsize(40);
+        d.textangle(++angle);
+        d.text(500,150,"End of session!");
+    }
+
+    visTool->addCustomVisualization(d);
   if(visflag == true){
       Eigen::Vector3d tmp_p;
       tmp_p.setZero();
@@ -411,6 +425,7 @@ void run_vis(){
   }
   static FPSLimiter limiter(30);
   limiter.wait();
+
 }
 
 void init(){

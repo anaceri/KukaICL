@@ -1,6 +1,8 @@
 #include <ICLQt/GUI.h>
 #include <ICLMath/LinearTransform1D.h>
 #include <ICLMath/StraightLine2D.h>
+#include <ICLUtils/VisualizationDescription.h>
+
 #include <vector>
 
 namespace icl{
@@ -10,6 +12,8 @@ namespace icl{
     
     int W,H;
     std::vector<Point32f> trace;
+    utils::Mutex visualizationsMutex;
+    std::map<std::string,utils::VisualizationDescription> visualizations;
     
     struct TTool{
       LinearTransform1D tx, ty;
@@ -30,6 +34,11 @@ namespace icl{
     void setTraceVisible(bool on);
     
     void clearTrace();
+
+    void addCustomVisualization(const utils::VisualizationDescription &vis, const std::string &id="default");
+    void removeCustomVisualization(const std::string &id);
+    void removeAllCustomVisualizations();
+
     private:
     
     TTool getTTool() const;
