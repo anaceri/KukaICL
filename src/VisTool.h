@@ -29,6 +29,7 @@ namespace icl{
     void propertyChanged(const Property &p);
     
     void setCurrentPos(const Point32f &p);
+    void setCurrColor(const Color &c);
     void setStartPoint(const Point32f &p);
     void setEndPoint(const Point32f &p);
     void setTraceVisible(bool on);

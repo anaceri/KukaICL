@@ -9,8 +9,8 @@ namespace icl{
     H = 500;
     
     addProperty("colors.left","color","",Color(200,0,100));
-    addProperty("colors.right","color","",Color(0,200,100));
-    addProperty("colors.curr","color","",Color(0,100,200));
+    addProperty("colors.right","color","",Color(0,100,200));
+    addProperty("colors.curr","color","",Color(200,0,0));
     addProperty("colors.trace","color","",Color(0,50,100));
     
     addProperty("colors.lines.connection","color","",Color(150,150,150));
@@ -38,7 +38,7 @@ namespace icl{
     addProperty("pos.curr","Point32f","",Point32f(30,40));
     
     addProperty("margin","range:spinbox", "[-10000, 10000]", 20);    
-    addProperty("trace.show","flag","",true);
+    addProperty("trace.show","flag","",false);
     addProperty("trace.empty","command","");
     addProperty("trace.mode","menu","points,line,both","both");
     
@@ -197,8 +197,12 @@ namespace icl{
   
   void VisTool::setCurrentPos(const Point32f &p){
     setPropertyValue("pos.curr", p);
+
   }
 
+  void VisTool::setCurrColor(const Color &c){
+     setPropertyValue("colors.curr", c);
+  }
   void VisTool::setStartPoint(const Point32f &p){
     setPropertyValue("pos.left",p);
   }

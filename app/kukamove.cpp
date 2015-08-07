@@ -34,25 +34,26 @@ Task *task;
 TaskNameT taskname;
 ParameterManager* pm;
 #ifdef DJALLIL_CONF
-#define newP_x -0.30
-#define newP_y 0.6
-#define newP_z 0.50
+#define newP_x -0.861
+#define newP_y 0.133
+#define newP_z 0.202
 
-#define newO_x 0.0
-#define newO_y 0;
-#define newO_z 0.0;
+#define newO_x 0.823608
+#define newO_y -1.49247
+#define newO_z 0.022205
 #else
 #define newP_x 0
 #define newP_y 0.3
 #define newP_z 0.30
 #define newO_x 0.0
-#define newO_y -M_PI/2;
-#define newO_z 0.0;
+#define newO_y -M_PI/2
+#define newO_z 0.0
 #endif
 
 #define SAMPLEFREQUENCE 4
 
 char inp;
+bool brakeOn = false;
 
 RobotModeT rmt;
 KUKACTRLMODET kmt;
@@ -81,6 +82,23 @@ void keypresscap(void)
             }
     }
 }
+
+void print_pf(void){
+    Eigen::Vector3d p,f,t;
+    Eigen::Matrix3d o;
+    Eigen::Vector3d oax;
+    p = kuka_lwr->get_cur_cart_p();
+    o = kuka_lwr->get_cur_cart_o();
+    oax = tm2axisangle(o);
+
+    kuka_lwr->get_eef_ft(f,t);
+    std::cout<<"position "<<p[0]<<","<<p[1]<<","<<p[2]<<std::endl;
+    std::cout<<"orientation angles "<<oax[0]<<","<<oax[1]<<","<<oax[2]<<std::endl;
+    std::cout<<"orientation "<<std::endl;std::cout<<o<<std::endl;
+    std::cout<<"force "<<f[0]<<","<<f[1]<<","<<f[2]<<std::endl;
+    std::cout<<"torque "<<t[0]<<","<<t[1]<<","<<t[2]<<std::endl;
+}
+
 
 void moveto_cb(void){
     Eigen::Vector3d p,o;
@@ -119,7 +137,6 @@ void movein_xyz(float x, float y, float z){
 
     cp = kuka_lwr->get_cur_cart_p();
     o = tm2axisangle(kuka_lwr->get_cur_cart_o());
-
     p(0) = cp(0) + x;
     p(1) = cp(1) + y;
     p(2) = cp(2) + z;
@@ -149,18 +166,6 @@ void psudog_cb(void){
     rmt = PsudoGravityCompensation;
 }
 
-void print_pf(void){
-    Eigen::Vector3d p,f,t;
-    Eigen::Matrix3d o;
-
-    p = kuka_lwr->get_cur_cart_p();
-    o = kuka_lwr->get_cur_cart_o();
-    kuka_lwr->get_eef_ft(f,t);
-//    std::cout<<"position "<<p[0]<<","<<p[1]<<","<<p[2]<<std::endl;
-//    std::cout<<"orientation "<<std::endl;std::cout<<o<<std::endl;
-//    std::cout<<"force "<<f[0]<<","<<f[1]<<","<<f[2]<<std::endl;
-//    std::cout<<"torque "<<t[0]<<","<<t[1]<<","<<t[2]<<std::endl;
-}
 
 void switch_stiff_cb1(void){
         Eigen::VectorXd cp_stiff,cp_damping,extft;
@@ -191,7 +196,7 @@ void switch_stiff_cb2(void){
         cp_damping.setZero(6);
         extft.setZero(6);
         cp_stiff[0] = 1000;
-        cp_stiff[1] = 1;
+        cp_stiff[1] = 1000;
         cp_stiff[2] = 1000;
         cp_stiff[3] = 200;
         cp_stiff[4] = 200;
@@ -214,6 +219,17 @@ void switch_cpstiff_mode(){
     switch_stiff_cb1();
     kuka_lwr->switch2cpcontrol();
     com_okc->release_brake();
+}
+
+void switch_brake(){
+    if(brakeOn){
+        com_okc->release_brake();
+        brakeOn=!brakeOn;
+    }
+    else {
+        com_okc->start_brake();
+        brakeOn=!brakeOn;
+    }
 }
 
 Timer tHello([]()
@@ -289,7 +305,7 @@ void run(){
 //        Kcp(5,5) = 250;
 
 //        Eigen::MatrixXd K_axis,K_axis_diag,K_cart;
-//        K_axis.setZero(7,7);
+//        K_axis.setZero(7,7);newP_x
 //        K_axis_diag.setZero(7,7);
 //        K_cart.setZero(7,7);
 
@@ -346,13 +362,22 @@ void init(){
     Eigen::Vector3d p,o;
     p.setZero();
     o.setZero();
-    p(0) = newP_x;
+    // update the state otherwise get_cur_cart_ are undefined;
+    kuka_lwr->get_joint_position_act();
+    kuka_lwr->get_joint_position_mea();
+    kuka_lwr->update_robot_state();
+
+    p = kuka_lwr->get_cur_cart_p();
+    o = tm2axisangle(kuka_lwr->get_cur_cart_o());
+    //print_pf();
+    /*p(0) = newP_x;
     p(1) = newP_y;
     p(2) = newP_z;
 
     o(0) = newO_x;
     o(1) = newO_y;
     o(2) = newO_z;
+    */
     task->set_desired_p_eigen(p);
     task->set_desired_o_ax(o);
     kuka_lwr->setAxisStiffnessDamping(ac->pm.stiff_ctrlpara.axis_stiffness, \
@@ -385,16 +410,20 @@ int main(int argc, char* argv[])
             switch_stiff_cb2();
             inp = '\n';
             break;
+        case 'b':
+            switch_brake();
+            inp = '\n';
+            break;
         case 'w':
             switch_cpstiff_mode();
             inp = '\n';
             break;
         case 'A':
-           movein_xyz(0.0, 0.0, 0.1);
+           movein_xyz(0.0, 0.0, 0.05);
            inp = '\n';
            break;
         case 'B':
-           movein_xyz(0.0, 0.0, -0.1);
+           movein_xyz(0.0, 0.0, -0.05);
            inp = '\n';
            break;
         case 'C':
