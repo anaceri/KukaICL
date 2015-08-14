@@ -90,6 +90,9 @@ enum session{
 #define trial_s1 40
 #define trial_s2 40
 #define trial_s3 4
+// change this based on the gender: male=1000, female=500
+#define beta 1000
+#define forceDisp 40
 
 //int numOftrials1[trial_s1];
 //int numOftrials2[trial_s2];
@@ -133,7 +136,7 @@ void set_stiff_extf(){
 
 
 Point32f curr(10,30);
-Point32f currPause(1000,3000);
+Point32f currPause(3000,3000);
 Eigen::Vector3d initP;
 string pathdata = "../Data/";
 string filename = "default";
@@ -284,47 +287,47 @@ void run_ctrl(){
             //std::cout<<"counter value is "<<counter_t<<std::endl;
             switch (sval){
             case SESSION1:
-                if ((tmp_p[0] > 0.2) & (tmp_p[0] < 0.27 )){
+                if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
                     //std::cout<<"y pos = " << tmp_p[0] <<std::endl;
                     switch (counter_t){
                     case 1:
-                        extft[0] = 20*sin(0/4.0);
-                        extft[1] = 20*cos(0/4.0);
+                        extft[0] = forceDisp*sin(0/4.0);
+                        extft[1] = forceDisp*cos(0/4.0);
                         //std::cout<<"session 1  1"<<std::endl;
                         break;
                     case 2:
-                        extft[0] = 20*sin(M_PI/4.0);
-                        extft[1] = 20*cos(M_PI/4.0);
+                        extft[0] = forceDisp*sin(M_PI/4.0);
+                        extft[1] = forceDisp*cos(M_PI/4.0);
                         //std::cout<<"session 1  2"<<std::endl;
                         break;
                     case 3:
-                        extft[0] = 20*sin(2*M_PI/4.0);
-                        extft[1] = 20*cos(2*M_PI/4.0);
+                        extft[0] = forceDisp*sin(2*M_PI/4.0);
+                        extft[1] = forceDisp*cos(2*M_PI/4.0);
                         //std::cout<<"session 1  3"<<std::endl;
                         break;
                     case 4:
-                        extft[0] = 20*sin(3.0*M_PI/4.0);
-                        extft[1] = 20*cos(3.0*M_PI/4.0);
+                        extft[0] = forceDisp*sin(3.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(3.0*M_PI/4.0);
                         //std::cout<<"session 1  4"<<std::endl;
                         break;
                     case 5:
-                        extft[0] = 20*sin(4.0*M_PI/4.0);
-                        extft[1] = 20*cos(4.0*M_PI/4.0);
+                        extft[0] = forceDisp*sin(4.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(4.0*M_PI/4.0);
                         //std::cout<<"session 1  5"<<std::endl;
                         break;
                     case 6:
-                        extft[0] = 20*sin(5.0*M_PI/4.0);
-                        extft[1] = 20*cos(5.0*M_PI/4.0);
+                        extft[0] = forceDisp*sin(5.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(5.0*M_PI/4.0);
                         //std::cout<<"session 1  6"<<std::endl;
                         break;
                     case 7:
-                        extft[0] = 20*sin(6.0*M_PI/4.0);
-                        extft[1] = 20*cos(6.0*M_PI/4.0);
+                        extft[0] = forceDisp*sin(6.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(6.0*M_PI/4.0);
                         //std::cout<<"session 1  7"<<std::endl;
                         break;
                     case 8:
-                        extft[0] = 20*sin(7.0*M_PI/4.0);
-                        extft[1] = 20*cos(7.0*M_PI/4.0);
+                        extft[0] = forceDisp*sin(7.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(7.0*M_PI/4.0);
                         //std::cout<<"session 1  8"<<std::endl;
                         break;
                     default:
@@ -341,16 +344,16 @@ void run_ctrl(){
                 switch (counter_t){
                 case 1:
                     extft[0] = 0;
-                    if (abs(tmp_p[1]) <= 0.05)
-                        extft[1] = 1200 * tmp_p[1];
+                    if (abs(tmp_p[1]) <= 0.1)
+                        extft[1] = beta * tmp_p[1];
                     else
                         extft[1] = 0;
                     //std::cout<<"err = " << extft[1] <<std::endl;
                     break;
                 case 2:
                     extft[0] = 0;
-                    if (abs(tmp_p[1]) <= 0.05)
-                        extft[1] = 1200 * tmp_p[1];
+                    if (abs(tmp_p[1]) <= 0.1)
+                        extft[1] = beta * tmp_p[1];
                     else
                         extft[1] = 0;
                     //std::cout<<"err = " <<  extft[1] <<std::endl;
@@ -383,18 +386,17 @@ void run_ctrl(){
             //std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
             //std::cout<<"del distance "<<(double)pa("-g",0)-curr.x;
             if(kuka_lwr->isTaskFinish(vel,(double)pa("-g",0)-curr.x)){
-
                 stop_cb();
             }
-            if(vel.norm() < 0.07)
+
+            if(vel.norm() < 0.2)
                 visTool->setPropertyValue("colors.curr",Color(200,0,0));
             else
                 visTool->setPropertyValue("colors.curr",Color(0,200,20));
 
-
         }
         else{
-            //visTool->setPropertyValue("colors.curr",Color(0,0,0));
+            visTool->setPropertyValue("colors.curr",Color(0,0,0));
             visTool->setPropertyValue("pos.curr",currPause);
         }
         //using all kinds of controllers to update the reference
@@ -497,7 +499,7 @@ void init(){
            //         << Button("sJNT").handle("sjnt_task")
            << Button("start").handle("start_task")
            << Button("stop").handle("stop_task")
-           << Slider(0,300,300,false).label("bar_move(mm)").handle("tbar")
+           << Slider(0,320,320,false).label("bar_move(mm)").handle("tbar")
 
            )
        <<  Show();

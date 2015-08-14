@@ -10,7 +10,7 @@
 #define initP_y 0.3
 #define initP_z 0.25
 
-#define stop_v 0.0005
+#define stop_v 0.05
 #define deltap_thr 5
 
 
