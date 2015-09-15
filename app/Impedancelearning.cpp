@@ -89,7 +89,7 @@ enum session{
 
 #define trial_s1 40
 #define trial_s2 40
-#define trial_s3 4
+#define trial_s3 40
 // change this based on the gender: male=1000, female=500
 #define beta 1000
 #define forceDisp 40
@@ -99,16 +99,16 @@ enum session{
 //int numOftrials3[trial_s3];
 int numOftrials1[trial_s1] = {1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8};
 
-int numOftrials2[trial_s2] = {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2};
+//int numOftrials2[trial_s2] = {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2};
 
-int numOftrials3[trial_s3] = {1,2,1,2};
+int numOftrials3[trial_s3] = {1,2,3,4,5,6,7,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9};
 
 session sval;
 char inp;
 
 RobotModeT rmt;
 
-bool stiffflag,startflag,visflag;
+bool stiffflag,startflag, visflag;
 
 double t_t;
 Eigen::VectorXd cp_stiff,cp_damping,extft;
@@ -135,8 +135,8 @@ void set_stiff_extf(){
 }
 
 
-Point32f curr(10,30);
-Point32f currPause(3000,3000);
+Point32f curr(10,0);
+Point32f currPause(0,0);
 Eigen::Vector3d initP;
 string pathdata = "../Data/";
 string filename = "default";
@@ -149,9 +149,10 @@ void start_cb(){
     //    com_okc->release_brake();
     ostringstream FileName;
     filename = pa("-name").as<string>();
-
     stiffflag = true;
-    visflag  = true;
+    visflag   = true;
+    startflag = true;
+    if(!visflag){std::cout << "alo mais c alo ..." << std::endl;}
     visTool->setPropertyValue("pos.curr",curr);
     initP.setZero();
     initP = kuka_lwr_rs->robot_position["eef"];
@@ -176,12 +177,26 @@ void start_cb(){
         }
         FileName << pathdata << filename << "_se2_" << trialcounter << ".dat";
         datafile.open(FileName.str().c_str(), ofstream::out);
-        counter_t = numOftrials2[trialcounter++];
+        counter_t = 1;
+        trialcounter++;
         std::cout<<"trial = " << trialcounter <<std::endl;
+        break;
+    case SESSION3:
+        if(trialcounter>=trial_s3){
+            trialcounter = -1;
+            std::cout<<"\n"<<std::endl;
+            std::cout<<"End of session 3"<<std::endl;
+        }
+        FileName << pathdata << filename << "_se3_" << trialcounter << ".dat";
+        datafile.open(FileName.str().c_str(), ofstream::out);
+        counter_t = numOftrials3[trialcounter++];
+        std::cout<<"trial = " << trialcounter <<std::endl;
+        break;
+    default:
+        trialcounter = -1;
         break;
     }
 
-    startflag = true;
 }
 
 void stop_cb(){
@@ -192,6 +207,10 @@ void stop_cb(){
     datafile.close();
     startflag = false;
     stiffflag = false;
+    visflag   = false;
+    //std::cout << "stopped properly" << std::endl;
+    visTool->setPropertyValue("pos.curr",curr);
+    curr.x = 100;
 }
 
 void session1_cb(void){
@@ -210,7 +229,7 @@ void session1_cb(void){
 void session2_cb(){
     trialcounter = 0;
     sval = SESSION2;
-    shuffel_v.dealvi(trial_s2,numOftrials2);
+    //shuffel_v.dealvi(trial_s2,numOftrials2);
 
 }
 
@@ -364,13 +383,111 @@ void run_ctrl(){
                     break;
                 }
                 break;
+
+
+            case SESSION3:
+                switch (counter_t){
+                case 1:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(0/4.0);
+                        extft[1] = forceDisp*cos(0/4.0);
+                        //std::cout<<"session 3  1"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 2:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(M_PI/4.0);
+                        extft[1] = forceDisp*cos(M_PI/4.0);
+                        //std::cout<<"session 3  2"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 3:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(2*M_PI/4.0);
+                        extft[1] = forceDisp*cos(2*M_PI/4.0);
+                        //std::cout<<"session 3  3"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 4:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(3.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(3.0*M_PI/4.0);
+                        //std::cout<<"session 3  4"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 5:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(4.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(4.0*M_PI/4.0);
+                        //std::cout<<"session 3  5"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 6:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(5.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(5.0*M_PI/4.0);
+                        //std::cout<<"session 3  6"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 7:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(6.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(6.0*M_PI/4.0);
+                        //std::cout<<"session 3  7"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 8:
+                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                        extft[0] = forceDisp*sin(7.0*M_PI/4.0);
+                        extft[1] = forceDisp*cos(7.0*M_PI/4.0);
+                        //std::cout<<"session 3  8"<<std::endl;
+                    } else {
+                        extft[0] = 0;
+                        extft[1] = 0;
+                    }
+                    break;
+                case 9:
+                    extft[0] = 0;
+                    if (abs(tmp_p[1]) <= 0.1)
+                        extft[1] = beta * tmp_p[1];
+                    else
+                        extft[1] = 0;
+                    //std::cout<<"session = 9" <<std::endl;
+                    break;
+                default:
+                    extft[0] = 0;
+                    extft[1] = 0;
+                    break;
+                }
+                break;
             }
 
-            if(sval==SESSION3){
+            /*if(sval==SESSION3){
                 t_t = t_t + 0.01;
                 extft[1] = 20*sin(t_t);
                 if(t_t>6.28){t_t = 0.0;}
-            }
+            }*/
 
             //            std::cout<<"tmp is "<<tmp_p<<std::endl;
             //            std::cout<<"tmp norm is "<<tmp_p.norm()<<std::endl;
@@ -385,19 +502,19 @@ void run_ctrl(){
             }
             //std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
             //std::cout<<"del distance "<<(double)pa("-g",0)-curr.x;
-            if(kuka_lwr->isTaskFinish(vel,(double)pa("-g",0)-curr.x)){
+            if((kuka_lwr->isTaskFinish(vel,(double)pa("-g",0)-curr.x)) || (abs(tmp_p[1]) > 0.1)){
                 stop_cb();
             }
 
-            if(vel.norm() < 0.2)
+            if((vel.norm() < 0.2) || (vel.norm() > 0.8))
                 visTool->setPropertyValue("colors.curr",Color(200,0,0));
             else
                 visTool->setPropertyValue("colors.curr",Color(0,200,20));
-
         }
         else{
-            visTool->setPropertyValue("colors.curr",Color(0,0,0));
-            visTool->setPropertyValue("pos.curr",currPause);
+
+            //visTool->setPropertyValue("colors.curr",Color(0,0,0));
+            //visTool->setPropertyValue("pos.curr",currPause);
         }
         //using all kinds of controllers to update the reference
         if(task->mt == JOINTS)
