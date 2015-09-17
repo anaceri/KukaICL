@@ -12,6 +12,7 @@
 
 #define stop_v 0.05
 #define deltap_thr 5
+#define deltastart_thr 15
 
 
 void KukaLwr::setReference (CBF::FloatVector new_ref){
@@ -102,6 +103,17 @@ Eigen::Vector3d KukaLwr::get_cur_vel(){
 bool KukaLwr::isTaskFinish(Eigen::Vector3d v, double deltap){
 
     if((fabs(v[0])<stop_v)&&(fabs(v[1])<stop_v)&&(fabs(v[2])<stop_v)&&(deltap < deltap_thr)){
+        return true;
+    }
+    else{
+        return false;
+    }
+
+}
+
+bool KukaLwr::isTaskStart(Eigen::Vector3d v, double deltap){
+
+    if((fabs(v[0])>stop_v)|| (fabs(v[1])>stop_v) || (fabs(v[2])>stop_v)&&(fabs(deltap) > deltastart_thr)){
         return true;
     }
     else{

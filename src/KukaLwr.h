@@ -61,6 +61,7 @@ public:
     void calibForce(int sampletimes);
     void getTcpFtCalib (Eigen::Vector3d &cf);
     bool isTaskFinish(Eigen::Vector3d, double);
+    bool isTaskStart(Eigen::Vector3d, double);
 private:
     void initChains();
     void initCbf();

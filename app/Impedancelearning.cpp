@@ -28,6 +28,7 @@
 #include <thread>
 #include <unistd.h>
 #include <termios.h>
+#include <stdlib.h>
 
 #include "ComOkc.h"
 #include "KukaLwr.h"
@@ -114,6 +115,9 @@ double t_t;
 Eigen::VectorXd cp_stiff,cp_damping,extft;
 
 int trialcounter;
+float pertcounter;
+float randval;
+bool startAdd;
 
 
 void set_stiff_extf(){
@@ -156,6 +160,10 @@ void start_cb(){
     visTool->setPropertyValue("pos.curr",curr);
     initP.setZero();
     initP = kuka_lwr_rs->robot_position["eef"];
+    randval   = rand() % 3 + 2;
+    randval   = randval * 0.1;
+    pertcounter = 0;
+    startAdd = false;
 
     switch (sval){
     case SESSION1:
@@ -306,8 +314,8 @@ void run_ctrl(){
             //std::cout<<"counter value is "<<counter_t<<std::endl;
             switch (sval){
             case SESSION1:
-                if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
-                    //std::cout<<"y pos = " << tmp_p[0] <<std::endl;
+                if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
+                    std::cout<<"randval = " << randval <<std::endl;
                     switch (counter_t){
                     case 1:
                         extft[0] = forceDisp*sin(0/4.0);
@@ -388,7 +396,7 @@ void run_ctrl(){
             case SESSION3:
                 switch (counter_t){
                 case 1:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(0/4.0);
                         extft[1] = forceDisp*cos(0/4.0);
                         //std::cout<<"session 3  1"<<std::endl;
@@ -398,7 +406,7 @@ void run_ctrl(){
                     }
                     break;
                 case 2:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(M_PI/4.0);
                         extft[1] = forceDisp*cos(M_PI/4.0);
                         //std::cout<<"session 3  2"<<std::endl;
@@ -408,7 +416,7 @@ void run_ctrl(){
                     }
                     break;
                 case 3:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(2*M_PI/4.0);
                         extft[1] = forceDisp*cos(2*M_PI/4.0);
                         //std::cout<<"session 3  3"<<std::endl;
@@ -418,7 +426,7 @@ void run_ctrl(){
                     }
                     break;
                 case 4:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(3.0*M_PI/4.0);
                         extft[1] = forceDisp*cos(3.0*M_PI/4.0);
                         //std::cout<<"session 3  4"<<std::endl;
@@ -428,7 +436,7 @@ void run_ctrl(){
                     }
                     break;
                 case 5:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(4.0*M_PI/4.0);
                         extft[1] = forceDisp*cos(4.0*M_PI/4.0);
                         //std::cout<<"session 3  5"<<std::endl;
@@ -438,7 +446,7 @@ void run_ctrl(){
                     }
                     break;
                 case 6:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(5.0*M_PI/4.0);
                         extft[1] = forceDisp*cos(5.0*M_PI/4.0);
                         //std::cout<<"session 3  6"<<std::endl;
@@ -448,7 +456,7 @@ void run_ctrl(){
                     }
                     break;
                 case 7:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(6.0*M_PI/4.0);
                         extft[1] = forceDisp*cos(6.0*M_PI/4.0);
                         //std::cout<<"session 3  7"<<std::endl;
@@ -458,7 +466,7 @@ void run_ctrl(){
                     }
                     break;
                 case 8:
-                    if ((tmp_p[0] > 0.17) & (tmp_p[0] < 0.23 )){
+                    if ((tmp_p[0] > 0.17) && (tmp_p[0] < 0.23 )){
                         extft[0] = forceDisp*sin(7.0*M_PI/4.0);
                         extft[1] = forceDisp*cos(7.0*M_PI/4.0);
                         //std::cout<<"session 3  8"<<std::endl;
@@ -502,6 +510,14 @@ void run_ctrl(){
             }
             //std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
             //std::cout<<"del distance "<<(double)pa("-g",0)-curr.x;
+            if((kuka_lwr->isTaskStart(vel,(double)pa("-s",0)-curr.x))){
+                startAdd = true;
+            }
+
+            if(startAdd){
+                pertcounter = pertcounter + kuka_lwr->gettimecycle();
+            }
+
             if((kuka_lwr->isTaskFinish(vel,(double)pa("-g",0)-curr.x)) || (abs(tmp_p[1]) > 0.1)){
                 stop_cb();
             }
@@ -597,6 +613,7 @@ void init(){
     kuka_lwr->setAxisStiffnessDamping(ac->pm.stiff_ctrlpara.axis_stiffness, \
                                       ac->pm.stiff_ctrlpara.axis_damping);
     rmt = NormalMode;
+    pertcounter = 0;
     //tHello.setSingleShot(false);
     //tHello.setInterval(Timer::Interval(SAMPLEFREQUENCE));
     //tHello.start(true);
