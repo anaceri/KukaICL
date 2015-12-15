@@ -49,7 +49,7 @@ LDFLAGS=-Wl,-rpath=/opt/icl/lib
 
 CBF_DSA_OKC_KDL_LIB=/usr/local/lib
 CBFPLANNER_REBA_LIB=.
-KUKA_LOWLEVEL_LIB_SET=-lcbf -lopenkcfri -lrt -lpthread -lm
+KUKA_LOWLEVEL_LIB_SET=-lcbf -lopenkcfri -lrt -lpthread -lm -lSDL -lSDL_mixer
 MORELIBS+=$(KUKA_LOWLEVEL_LIB_SET)  \
 	-L$(CBF_DSA_OKC_KDL_LIB) -L$(CBFPLANNER_REBA_LIB) \
 	 -lorocos-kdl\
@@ -58,6 +58,7 @@ MORELIBS+=$(KUKA_LOWLEVEL_LIB_SET)  \
 # optionally define C++-Compiler flags
 CXXFLAGS+=-I/usr/local/include/ \
 	-I/usr/local/include/cbf0.2 \
+	-I/usr/include \
 	 -fPIC -ggdb3
 # optionally define C++-C-Pre-Processor flags
 CXXCPP=-D no_keywords  -DQT_NO_KEYWORDS -DCBF_NDEBUG -DDJALLIL_CONF -std=c++0x
