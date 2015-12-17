@@ -130,9 +130,9 @@ bool startAdd;
 bool bipflag;
 
 //choose which axis you wanna investigate!
-int indx = 2;
+int indx = 0;
 int indy = 1;
-int indz = 0;
+int indz = 2;
 
 // audio function
 Mix_Chunk *sounds[SOUND_NUMBER];
@@ -250,6 +250,7 @@ void stop_cb(){
 
     extft[indx] = 0;
     extft[indy] = 0;
+    extft[indz] = 0;
     set_stiff_extf();
     datafile.close();
     startflag = false;
@@ -368,7 +369,7 @@ void run_ctrl(){
                 }
                 //std::cout<<"bipcounter = " << bipcounter <<std::endl;
                 //std::cout << "vel1 = " << vel[0]<<","<< vel[1]<<","<< vel[2]<<std::endl;
-                std::cout<<"bipcounter = " << bipcounter <<std::endl;
+                //std::cout<<"bipcounter = " << bipcounter <<std::endl;
                 if((bipcounter >= 0.6) && (bipcounter < 0.61)){
                     //play bip audio
                     playSound(sounds[BEEP2]);
@@ -376,7 +377,7 @@ void run_ctrl(){
                 break;
 
             case SESSION1:
-                if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                     //std::cout<<"randval = " << randval <<std::endl;
                     switch (counter_t){
                     case 1:
@@ -433,15 +434,18 @@ void run_ctrl(){
                 switch (counter_t){
                 case 1:
                     extft[indx] = 0;
-                    if (abs(tmp_p[1]) <= 0.01)
-                        extft[indy] = beta * tmp_p[1];
+                    if ((abs(tmp_p[indy]) <= 0.1) && (abs(tmp_p[indz]) <= 0.1)){
+                        extft[indy] = beta * tmp_p[indy];
+                        extft[indz] = beta * tmp_p[indz];
+                    }
                     else
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     //std::cout<<"err = " << extft[1] <<std::endl;
                     break;
                 case 2:
                     extft[0] = 0;
-                    if (abs(tmp_p[1]) <= 0.01)
+                    if (abs(tmp_p[1]) <= 0.1)
                         extft[indy] = beta * tmp_p[1];
                     else
                         extft[indy] = 0;
@@ -450,6 +454,7 @@ void run_ctrl(){
                 default:
                     extft[indx] = 0;
                     extft[indy] = 0;
+                    extft[indz] = 0;
                     break;
                 }
                 break;
@@ -458,7 +463,7 @@ void run_ctrl(){
             case SESSION3:
                 switch (counter_t){
                 case 1:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(0/4.0);
                         extft[indy] = forceDisp*cos(0/4.0);
                         //std::cout<<"session 3  1"<<std::endl;
@@ -468,7 +473,7 @@ void run_ctrl(){
                     }
                     break;
                 case 2:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(M_PI/4.0);
                         extft[indy] = forceDisp*cos(M_PI/4.0);
                         //std::cout<<"session 3  2"<<std::endl;
@@ -478,7 +483,7 @@ void run_ctrl(){
                     }
                     break;
                 case 3:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(2*M_PI/4.0);
                         extft[indy] = forceDisp*cos(2*M_PI/4.0);
                         //std::cout<<"session 3  3"<<std::endl;
@@ -488,7 +493,7 @@ void run_ctrl(){
                     }
                     break;
                 case 4:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(3.0*M_PI/4.0);
                         extft[indy] = forceDisp*cos(3.0*M_PI/4.0);
                         //std::cout<<"session 3  4"<<std::endl;
@@ -498,7 +503,7 @@ void run_ctrl(){
                     }
                     break;
                 case 5:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(4.0*M_PI/4.0);
                         extft[indy] = forceDisp*cos(4.0*M_PI/4.0);
                         //std::cout<<"session 3  5"<<std::endl;
@@ -508,7 +513,7 @@ void run_ctrl(){
                     }
                     break;
                 case 6:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(5.0*M_PI/4.0);
                         extft[indy] = forceDisp*cos(5.0*M_PI/4.0);
                         //std::cout<<"session 3  6"<<std::endl;
@@ -518,7 +523,7 @@ void run_ctrl(){
                     }
                     break;
                 case 7:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(6.0*M_PI/4.0);
                         extft[indy] = forceDisp*cos(6.0*M_PI/4.0);
                         //std::cout<<"session 3  7"<<std::endl;
@@ -528,7 +533,7 @@ void run_ctrl(){
                     }
                     break;
                 case 8:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.7 )){
+                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
                         extft[indx] = forceDisp*sin(7.0*M_PI/4.0);
                         extft[indy] = forceDisp*cos(7.0*M_PI/4.0);
                         //std::cout<<"session 3  8"<<std::endl;
@@ -756,10 +761,10 @@ void init(){
     string pathsound = "../sound/";
     ostringstream  path;
     path.str("");
-    path << pathsound << "beep.wav";
+    path << pathsound << "beep-07.wav";
     sounds[BEEP1] = Mix_LoadWAV(path.str().c_str());
     path.str("");
-    path << pathsound << "default_alarm.wav";
+    path << pathsound << "beep-08b.wav";
     sounds[BEEP2] = Mix_LoadWAV(path.str().c_str());
     path.str("");
 
