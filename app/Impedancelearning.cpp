@@ -92,7 +92,7 @@ enum session{
     SESSION1 = 0,
     SESSION2 = 1,
     SESSION3 = 2,
-    SESSION0 = 4,
+    SESSION0 = 3
 };
 
 #define trial_s0 10
@@ -102,6 +102,7 @@ enum session{
 // change this based on the gender: male=1000, female=500
 #define beta 1000
 #define forceDisp 40
+#define deltatPert 0.6
 
 //int numOftrials1[trial_s1];
 //int numOftrials2[trial_s2];
@@ -130,9 +131,9 @@ bool startAdd;
 bool bipflag;
 
 //choose which axis you wanna investigate!
-int indx = 0;
-int indy = 1;
-int indz = 2;
+int indx;
+int indy;
+int indz;
 
 // audio function
 Mix_Chunk *sounds[SOUND_NUMBER];
@@ -167,7 +168,8 @@ void set_stiff_extf(){
 
 Point32f curr(10,0);
 Point32f currPause(0,0);
-Eigen::Vector3d initP;
+Eigen::Vector3d initP;int j = 1;
+
 string pathdata = "../Data/";
 string filename = "default";
 
@@ -237,20 +239,21 @@ void start_cb(){
         FileName << pathdata << filename << "_se3_" << trialcounter << ".dat";
         datafile.open(FileName.str().c_str(), ofstream::out);
         counter_t = numOftrials3[trialcounter++];
+        //std::cout<<"count_t is "<<counter_t<<std::endl;
         std::cout<<"trial = " << trialcounter <<std::endl;
+        //std::cout<<"sval = " << sval <<std::endl;
         break;
     default:
         trialcounter = -1;
-        break;
     }
 
 }
 
 void stop_cb(){
 
-    extft[indx] = 0;
-    extft[indy] = 0;
-    extft[indz] = 0;
+    extft[0] = 0;
+    extft[1] = 0;
+    extft[2] = 0;
     set_stiff_extf();
     datafile.close();
     startflag = false;
@@ -292,7 +295,6 @@ void session3_cb(void){
     trialcounter = 0;
     sval = SESSION3;
     shuffel_v.dealvi(trial_s3,numOftrials3);
-
 }
 
 
@@ -318,6 +320,7 @@ void run_ctrl(){
         kuka_lwr_rs->updated(kuka_lwr);
         kuka_lwr->update_robot_state();
         vel = kuka_lwr->get_cur_vel();
+//        std::cout<<"vel is "<<vel<<std::endl;
         if(stiffflag ==true){
             //record data here
             Eigen::Vector3d tmp_p,task_p;
@@ -327,14 +330,15 @@ void run_ctrl(){
             f_est.setZero();
             t_est.setZero();
 
-
+//            std::cout<<"force are before filtering "<<f_est(0)<<","<<f_est(1)<<","<<f_est(2)<<std::endl;
             kuka_lwr->getTcpFtCalib(f_est);
             filtered_force = cf_filter->push(Vec(f_est(0),f_est(1),f_est(2),1));
-            //std::cout<<"force are "<<f_est(0)<<","<<f_est(1)<<","<<f_est(2)<<std::endl;
+//            std::cout<<"force are "<<f_est(0)<<","<<f_est(1)<<","<<f_est(2)<<std::endl;
             for(int i = 0; i < 3; i++){
                 f_est(i) = filtered_force[i];
                 //             t_est(i) = 0;
             }
+//            std::cout<<"force are new "<<f_est(0)<<","<<f_est(1)<<","<<f_est(2)<<std::endl;
 
             //             kuka_lwr->get_eef_ft(f_est,t_est);
             tmp_p = kuka_lwr_rs->robot_position["eef"]-initP;
@@ -349,16 +353,17 @@ void run_ctrl(){
             datafile<<t_est[1]<< "\t";
             datafile<<t_est[2]<< "\t";
 
-            datafile<<extft[indx]<< "\t";
-            datafile<<extft[indy]<< "\t";
-            datafile<<extft[indz]<< "\t";
+            datafile<<extft[0]<< "\t";
+            datafile<<extft[1]<< "\t";
+            datafile<<extft[2]<< "\t";
             datafile<<t_desired[0]<< "\t";
             datafile<<t_desired[1]<< "\t";
             datafile<<t_desired[2]<< "\t";
+
             datafile<<counter_t<<std::endl;
             //add session 3 sin perturbation force
-            //std::cout<<"session value is "<<sval<<std::endl;
-            //std::cout<<"counter value is "<<counter_t<<std::endl;
+            //std::cout<<"session value in run is "<<sval<<std::endl;
+            //std::cout<<"counter value in run is "<<counter_t<<std::endl;
             switch (sval){
             case SESSION0:
                 if ((bipflag) && (startAdd)) {
@@ -377,70 +382,74 @@ void run_ctrl(){
                 break;
 
             case SESSION1:
-                if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
+                if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
                     //std::cout<<"randval = " << randval <<std::endl;
                     switch (counter_t){
                     case 1:
-                        extft[indx] = forceDisp*sin(0/4.0);
-                        extft[indy] = forceDisp*cos(0/4.0);
+                        extft[indy] = forceDisp*sin(0/4.0);
+                        extft[indz] = forceDisp*cos(0/4.0);
                         //std::cout<<"session 1  1"<<std::endl;
                         break;
                     case 2:
-                        extft[indx] = forceDisp*sin(M_PI/4.0);
-                        extft[indy] = forceDisp*cos(M_PI/4.0);
+                        extft[indy] = forceDisp*sin(M_PI/4.0);
+                        extft[indz] = forceDisp*cos(M_PI/4.0);
                         //std::cout<<"session 1  2"<<std::endl;
                         break;
                     case 3:
-                        extft[indx] = forceDisp*sin(2*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(2*M_PI/4.0);
+                        extft[indy] = forceDisp*sin(2*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(2*M_PI/4.0);
                         //std::cout<<"session 1  3"<<std::endl;
                         break;
                     case 4:
-                        extft[indx] = forceDisp*sin(3.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(3.0*M_PI/4.0);
+                        extft[indy] = forceDisp*sin(3.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(3.0*M_PI/4.0);
                         //std::cout<<"session 1  4"<<std::endl;
                         break;
                     case 5:
-                        extft[indx] = forceDisp*sin(4.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(4.0*M_PI/4.0);
+                        extft[indy] = forceDisp*sin(4.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(4.0*M_PI/4.0);
                         //std::cout<<"session 1  5"<<std::endl;
                         break;
                     case 6:
-                        extft[indx] = forceDisp*sin(5.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(5.0*M_PI/4.0);
+                        extft[indy] = forceDisp*sin(5.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(5.0*M_PI/4.0);
                         //std::cout<<"session 1  6"<<std::endl;
                         break;
                     case 7:
-                        extft[indx] = forceDisp*sin(6.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(6.0*M_PI/4.0);
+                        extft[indy] = forceDisp*sin(6.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(6.0*M_PI/4.0);
                         //std::cout<<"session 1  7"<<std::endl;
                         break;
                     case 8:
-                        extft[indx] = forceDisp*sin(7.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(7.0*M_PI/4.0);
+                        extft[indy] = forceDisp*sin(7.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(7.0*M_PI/4.0);
                         //std::cout<<"session 1  8"<<std::endl;
                         break;
                     default:
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                         break;
                     }
                 } else {
                     extft[indx] = 0;
                     extft[indy] = 0;
+                    extft[indz] = 0;
                 }
                 break;
             case SESSION2:
                 switch (counter_t){
                 case 1:
                     extft[indx] = 0;
+                    extft[indz] = 0;
                     if ((abs(tmp_p[indy]) <= 0.1) && (abs(tmp_p[indz]) <= 0.1)){
                         extft[indy] = beta * tmp_p[indy];
-                        extft[indz] = beta * tmp_p[indz];
+                        //extft[indz] = beta * tmp_p[indz];
                     }
-                    else
+                    else{
                         extft[indy] = 0;
                         extft[indz] = 0;
+                    }
                     //std::cout<<"err = " << extft[1] <<std::endl;
                     break;
                 case 2:
@@ -458,124 +467,143 @@ void run_ctrl(){
                     break;
                 }
                 break;
-
-
             case SESSION3:
+//                std::cout <<  "conterout = " << counter_t << std::endl;
                 switch (counter_t){
+//                std::cout <<  "conterin = " << counter_t << std::endl;
+                extft[indx] = 0;
                 case 1:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(0/4.0);
-                        extft[indy] = forceDisp*cos(0/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(0/4.0);
+                        extft[indz] = forceDisp*cos(0/4.0);
                         //std::cout<<"session 3  1"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 2:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(M_PI/4.0);
-                        extft[indy] = forceDisp*cos(M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(M_PI/4.0);
+                        extft[indz] = forceDisp*cos(M_PI/4.0);
                         //std::cout<<"session 3  2"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 3:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(2*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(2*M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(2*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(2*M_PI/4.0);
                         //std::cout<<"session 3  3"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 4:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(3.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(3.0*M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(3.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(3.0*M_PI/4.0);
                         //std::cout<<"session 3  4"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 5:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(4.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(4.0*M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(4.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(4.0*M_PI/4.0);
                         //std::cout<<"session 3  5"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 6:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(5.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(5.0*M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(5.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(5.0*M_PI/4.0);
                         //std::cout<<"session 3  6"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 7:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(6.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(6.0*M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(6.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(6.0*M_PI/4.0);
                         //std::cout<<"session 3  7"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 8:
-                    if ((pertcounter > randval) && (pertcounter < randval + 0.5 )){
-                        extft[indx] = forceDisp*sin(7.0*M_PI/4.0);
-                        extft[indy] = forceDisp*cos(7.0*M_PI/4.0);
+                    if ((pertcounter > randval) && (pertcounter < randval + deltatPert )){
+                        extft[indy] = forceDisp*sin(7.0*M_PI/4.0);
+                        extft[indz] = forceDisp*cos(7.0*M_PI/4.0);
                         //std::cout<<"session 3  8"<<std::endl;
                     } else {
                         extft[indx] = 0;
                         extft[indy] = 0;
+                        extft[indz] = 0;
                     }
                     break;
                 case 9:
                     extft[indx] = 0;
-                    if (abs(tmp_p[1]) <= 0.1)
-                        extft[indy] = beta * tmp_p[1];
-                    else
+                    extft[indz] = 0;
+                    if ((abs(tmp_p[indy]) <= 0.1) && (abs(tmp_p[indz]) <= 0.1)){
+                        extft[indy] = beta * tmp_p[indy];
+                        //extft[indz] = beta * tmp_p[indz];
+                    }
+                    else{
+                        extft[indx] = 0;
                         extft[indy] = 0;
-                    //std::cout<<"session = 9" <<std::endl;
+                        extft[indz] = 0;
+                    }
                     break;
                 default:
                     extft[indx] = 0;
                     extft[indy] = 0;
+                    extft[indz] = 0;
                     break;
                 }
+//                std::cout<<"now in session 3 branch"<<std::endl;
                 break;
+            default:
+                std::cout<<"this is the task default case"<<std::endl;
             }
-
+//            std::cout<<"now just outside of session 3 branch"<<std::endl;
             /*if(sval==SESSION3){
                 t_t = t_t + 0.01;
                 extft[1] = 20*sin(t_t);
                 if(t_t>6.28){t_t = 0.0;}
             }*/
 
-            //            std::cout<<"tmp is "<<tmp_p<<std::endl;
-            //            std::cout<<"tmp norm is "<<tmp_p.norm()<<std::endl;
+//                        std::cout<<"tmp is "<<tmp_p<<std::endl;
+//                        std::cout<<"tmp norm is "<<tmp_p.norm()<<std::endl;
             if(tmp_p.norm()>0.02){
                 //                std::cout<<"right position"<<std::endl;
                 set_stiff_extf();
             }else{
                 //                std::cout<<"wong position"<<std::endl;
-                extft[indx] = 0;
-                extft[indy] = 0;
+                extft[0] = 0;
+                extft[1] = 0;
+                extft[2] = 0;
                 set_stiff_extf();
             }
-            //std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
+//            std::cout<<"local vel "<<vel(0)<<","<<vel(1)<<","<<vel(2)<<std::endl;
             //std::cout<<"del distance "<<(double)pa("-g",0)-curr.x;
             if((kuka_lwr->isTaskStart(vel,(double)pa("-s",0)-curr.x))){
                 startAdd = true;
@@ -658,6 +686,9 @@ void run_vis(){
 
 void init(){
     //    if(!pa("-no-robot")){}
+    indx = 0;
+    indy = 1;
+    indz = 2;
     sval = SESSION1;
     pm = new ParameterManager("right_arm_param.xml");
     com_okc = new ComOkc(kuka_right,OKC_HOST,OKC_PORT,CART_IMP);
