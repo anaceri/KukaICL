@@ -5,8 +5,8 @@
 namespace icl{
 
   VisTool::VisTool(){
-    W = 1000;
-    H = 500;
+    W = 900;
+    H = 1200;
     
     addProperty("colors.left","color","",Color(200,0,100));
     addProperty("colors.right","color","",Color(0,100,200));

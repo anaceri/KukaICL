@@ -4,9 +4,9 @@
 #include "RebaType.h"
 #ifdef DJALLIL_CONF
 
-#define OKC_HOST "192.168.0.100"
+#define OKC_HOST "192.168.10.122"
 #define LEFTARM_IP "192.168.0.10"
-#define RIGHTARM_IP "192.168.0.20"
+#define RIGHTARM_IP "192.168.10.243"
 
 #else
 
